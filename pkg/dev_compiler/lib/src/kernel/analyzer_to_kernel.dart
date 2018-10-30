@@ -185,6 +185,7 @@ class AnalyzerToKernel {
     library ??= visitLibraryElement(e.library);
     library.addClass(class_);
 
+    class_.isMixinDeclaration = e.isMixin;
     class_.typeParameters
         .addAll(e.typeParameters.map(visitTypeParameterElement));
 
@@ -501,6 +502,9 @@ class AnalyzerToKernel {
 
     _visitUnit(a.CompilationUnitElement u) {
       for (var t in u.types) {
+        visitClassElement(t, library);
+      }
+      for (var t in u.mixins) {
         visitClassElement(t, library);
       }
       for (var t in u.functionTypeAliases) {
